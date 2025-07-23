@@ -1,0 +1,120 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.4.0 Safari/537.36" version="27.0.9">
+  <diagram name="UML" id="uml-diagram-1">
+    <mxGraphModel dx="8677" dy="7817" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="MainWindow" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="180" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="+ open_file_dialog() + load_dxf_data() + open_analysis_dialog() + open_z_analysis() + integrate_z_height_data() + open_visualization() + on_visualizer_data_updated()" style="text;html=1;align=left;verticalAlign=top;" parent="2" vertex="1">
+          <mxGeometry y="40" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="GeometryManager" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="40" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="+ process_dxf_data_frame() + apply_analysis_results() + get_filtered_data() + update_geometry_row()" style="text;html=1;align=left;verticalAlign=top;" parent="4" vertex="1">
+          <mxGeometry y="40" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="DXFParser" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="200" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="+ load_dxf() + get_document()" style="text;html=1;align=left;verticalAlign=top;" parent="6" vertex="1">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="PandasTableModel" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="250" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="+ setDataframe() + get_data_frame()" style="text;html=1;align=left;verticalAlign=top;" parent="8" vertex="1">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="AnalysisDialog" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="370" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="+ run_analysis() + apply_results_to_main_table()" style="text;html=1;align=left;verticalAlign=top;" parent="10" vertex="1">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="AnalysisHandler" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="370" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="+ find_associations()" style="text;html=1;align=left;verticalAlign=top;" parent="12" vertex="1">
+          <mxGeometry y="40" width="180" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="CADViewer" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="40" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="+ load_document_from_main_app() + display_entity_data()" style="text;html=1;align=left;verticalAlign=top;" parent="14" vertex="1">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="HeightAssignmentApp" style="swimlane;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="150" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="+ load_dataframe_directly() + transfer_to_main_table()" style="text;html=1;align=left;verticalAlign=top;" parent="16" vertex="1">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="18" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="2" target="4" edge="1" />
+        <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="2" target="6" edge="1" />
+        <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="2" target="8" edge="1" />
+        <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="2" target="14" edge="1" />
+        <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="2" target="10" edge="1" />
+        <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="2" target="16" edge="1" />
+        <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" parent="1" source="10" target="12" edge="1" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-25" value="MainWindow" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="180" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-26" value="+ open_file_dialog() + load_dxf_data() + open_analysis_dialog() + open_z_analysis() + integrate_z_height_data() + open_visualization() + on_visualizer_data_updated()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-25">
+          <mxGeometry y="40" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-27" value="GeometryManager" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="40" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-28" value="+ process_dxf_data_frame() + apply_analysis_results() + get_filtered_data() + update_geometry_row()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-27">
+          <mxGeometry y="40" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-29" value="DXFParser" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="200" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-30" value="+ load_dxf() + get_document()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-29">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-31" value="PandasTableModel" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="250" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-32" value="+ setDataframe() + get_data_frame()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-31">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-33" value="AnalysisDialog" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="370" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-34" value="+ run_analysis() + apply_results_to_main_table()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-33">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-35" value="AnalysisHandler" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="370" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-36" value="+ find_associations()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-35">
+          <mxGeometry y="40" width="180" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-37" value="CADViewer" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="40" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-38" value="+ load_document_from_main_app() + display_entity_data()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-37">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-39" value="HeightAssignmentApp" style="swimlane;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="150" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-40" value="+ load_dataframe_directly() + transfer_to_main_table()" style="text;html=1;align=left;verticalAlign=top;" vertex="1" parent="9Zjc1wYY_F41HaOv2jL7-39">
+          <mxGeometry y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-41" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-25" target="9Zjc1wYY_F41HaOv2jL7-27" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-42" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-25" target="9Zjc1wYY_F41HaOv2jL7-29" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-43" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-25" target="9Zjc1wYY_F41HaOv2jL7-31" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-44" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-25" target="9Zjc1wYY_F41HaOv2jL7-37" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-45" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-25" target="9Zjc1wYY_F41HaOv2jL7-33" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-46" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-25" target="9Zjc1wYY_F41HaOv2jL7-39" />
+        <mxCell id="9Zjc1wYY_F41HaOv2jL7-47" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="9Zjc1wYY_F41HaOv2jL7-33" target="9Zjc1wYY_F41HaOv2jL7-35" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
