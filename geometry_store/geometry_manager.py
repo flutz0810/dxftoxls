@@ -278,71 +278,57 @@ class GeometryManager:
             start_z = row_data.get('StartZ')
             end_z = row_data.get('EndZ')
 
-            if pd.notna(start_z):
-                start_z = float(start_z)
-            else:
-                start_z = None
+            actual_start_z = float(start_z) if pd.notna(start_z) else 0.0
+            actual_end_z = float(end_z) if pd.notna(end_z) else 0.0
 
-            if pd.notna(end_z):
-                end_z = float(end_z)
-            else:
-                end_z = None
-
-            # CenterZ bestimmen
-            if start_z is not None and end_z is not None:
-                new_center_z = (start_z + end_z) / 2.0
-            elif start_z is not None:
-                new_center_z = start_z
-            elif end_z is not None:
-                new_center_z = end_z
+            # CenterZ als Durchschnitt von Start und Ende bestimmen
+            if pd.notna(start_z) and pd.notna(end_z):
+                new_center_z = (actual_start_z + actual_end_z) / 2.0
+            elif pd.notna(start_z):
+                new_center_z = actual_start_z
+            elif pd.notna(end_z):
+                new_center_z = actual_end_z
             else:
                 old_center_z = row_data.get('CenterZ')
                 new_center_z = float(old_center_z) if pd.notna(old_center_z) else 0.0
 
-            # Radius nur berechnen, wenn beide Z-Werte vorhanden sind
-            if start_z is not None and end_z is not None:
-                actual_start_z = start_z
-                actual_end_z = end_z
-                p_start = Vec3(start_x, start_y, actual_start_z)
-                p_end = Vec3(end_x, end_y, actual_end_z)
-                center = Vec3(center_x, center_y, new_center_z)
-                new_radius = (p_start - center).magnitude
+            new_radius = math.sqrt((start_x - center_x)**2 + (start_y - center_y)**2)
 
-                v_center_to_start = p_start - center
-                v_center_to_end = p_end - center
-                new_normal = v_center_to_start.cross(v_center_to_end)
-                magnitude = new_normal.magnitude
-                if magnitude < 1e-9:
-                    print(f"WARNUNG: Bogen-Punkte kollinear für Zeile {row_index}")
-                    return
-                new_normal = new_normal.normalize()
+            p_start = Vec3(start_x, start_y, actual_start_z)
+            p_end = Vec3(end_x, end_y, actual_end_z)
+            center = Vec3(center_x, center_y, new_center_z)
+            
+            # Die Vektoren für die Normalenberechnung müssen vom 3D-Mittelpunkt ausgehen.
+            v_center_to_start = p_start - center
+            v_center_to_end = p_end - center
+            # --- KORREKTUR ENDET HIER ---
 
-                ocs = OCS(new_normal)
-                ocs_start_vec = ocs.from_wcs(v_center_to_start)
-                ocs_end_vec = ocs.from_wcs(v_center_to_end)
-                new_start_angle = math.degrees(math.atan2(ocs_start_vec.y, ocs_start_vec.x))
-                new_end_angle = math.degrees(math.atan2(ocs_end_vec.y, ocs_end_vec.x))
-                if new_start_angle < 0: new_start_angle += 360
-                if new_end_angle < 0: new_end_angle += 360
+            new_normal = v_center_to_start.cross(v_center_to_end)
+            magnitude = new_normal.magnitude
+            if magnitude < 1e-9:
+                print(f"WARNUNG: Bogen-Punkte kollinear für Zeile {row_index}")
+                # In diesem Fall keine weiteren Parameter aktualisieren, nur CenterZ
+                self.all_entities_df.at[row_index, 'CenterZ'] = new_center_z
+                return
+            new_normal = new_normal.normalize()
 
-                self.all_entities_df.at[row_index, 'Radius'] = new_radius
-                self.all_entities_df.at[row_index, 'NormalX'] = new_normal.x
-                self.all_entities_df.at[row_index, 'NormalY'] = new_normal.y
-                self.all_entities_df.at[row_index, 'NormalZ'] = new_normal.z
-                self.all_entities_df.at[row_index, 'StartAngle'] = new_start_angle
-                self.all_entities_df.at[row_index, 'EndAngle'] = new_end_angle
-                print(f"DEBUG: Bogen-Parameter neu berechnet für Zeile {row_index}: R={new_radius:.4f}, CZ={new_center_z:.4f}")
-            else:
-                # Nur ein Z-Wert vorhanden: CenterZ übernehmen, Radius bleibt wie im Original oder wird auf NaN gesetzt
-                self.all_entities_df.at[row_index, 'Radius'] = np.nan
-                self.all_entities_df.at[row_index, 'NormalX'] = np.nan
-                self.all_entities_df.at[row_index, 'NormalY'] = np.nan
-                self.all_entities_df.at[row_index, 'NormalZ'] = np.nan
-                self.all_entities_df.at[row_index, 'StartAngle'] = np.nan
-                self.all_entities_df.at[row_index, 'EndAngle'] = np.nan
-                print(f"DEBUG: Bogen-Parameter (nur CenterZ) für Zeile {row_index}: CZ={new_center_z:.4f}")
-
+            ocs = OCS(new_normal)
+            ocs_start_vec = ocs.from_wcs(v_center_to_start)
+            ocs_end_vec = ocs.from_wcs(v_center_to_end)
+            new_start_angle = math.degrees(math.atan2(ocs_start_vec.y, ocs_start_vec.x))
+            new_end_angle = math.degrees(math.atan2(ocs_end_vec.y, ocs_end_vec.x))
+            if new_start_angle < 0: new_start_angle += 360
+            if new_end_angle < 0: new_end_angle += 360
+            
+            # Alle abhängigen Werte im DataFrame aktualisieren
             self.all_entities_df.at[row_index, 'CenterZ'] = new_center_z
+            self.all_entities_df.at[row_index, 'Radius'] = new_radius
+            self.all_entities_df.at[row_index, 'NormalX'] = new_normal.x
+            self.all_entities_df.at[row_index, 'NormalY'] = new_normal.y
+            self.all_entities_df.at[row_index, 'NormalZ'] = new_normal.z
+            self.all_entities_df.at[row_index, 'StartAngle'] = new_start_angle
+            self.all_entities_df.at[row_index, 'EndAngle'] = new_end_angle
+            print(f"DEBUG: Bogen-Parameter neu berechnet für Zeile {row_index}: R={new_radius:.4f}, CZ={new_center_z:.4f}")
 
         except Exception as e:
             print(f"DEBUG: Fehler beim Neuberechnen der Bogen-Parameter: {e}")
